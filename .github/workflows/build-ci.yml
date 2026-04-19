@@ -16,6 +16,12 @@ jobs:
         run: bash ./.github/ci/install-esp8266.sh
       - name: Setup libraries
         run: bash ./.github/ci/prepare-libs.sh
+      - name: Create myconfig.h
+        run: |
+          cat > esp3d/myconfig.h << EOF
+          #define STATION_WIFI_SSID "${{ secrets.WIFI_SSID }}"
+          #define STATION_WIFI_PASSWORD "${{ secrets.WIFI_PASSWORD }}"
+          EOF
       - name: Build ESP8266 arduino
         id: esp8266_1
         run: bash ./.github/ci/build-esp3d.sh esp8266 arduino
