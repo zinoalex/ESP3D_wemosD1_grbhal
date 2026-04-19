@@ -26,6 +26,8 @@ jobs:
         id: esp8266_1
         run: bash ./.github/ci/build-esp3d.sh esp8266 arduino
         continue-on-error: true
+      - name: Find binaries
+        run: find /tmp -name "*.bin" 2>/dev/null || find /home/runner -name "*.bin" 2>/dev/null
       - name: Build ESP32 arduino
         id: esp32_1
         run: bash ./.github/ci/build-esp3d.sh esp32 arduino
@@ -39,8 +41,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: esp3d-esp8266
-          path: |
-            **/*.bin
+          path: /tmp/**/*.bin
           retention-days: 7
       - name: Final check
         env:
